@@ -5,11 +5,13 @@
     <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.5/dist/mindar-image.prod.js"></script>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.5/dist/mindar-image-aframe.prod.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head>
   
   <body class="bg-blue-300">
-    
-  <div
+    <script type="module" src="./js/main.js"></script>
+
+    <div
       id="videoShow"
       class="hidden absolute m-0  left-[50%] -translate-x-1/2 w-full"
     >
@@ -25,9 +27,9 @@
       device-orientation-permission-ui="enabled: false"
     >
 
-      <!-- 掃描marker -->
+      <!-- 顯示圖片 -->
       <a-assets>
-        <img id="img" src="./images/1.png" />
+        <img id="img" src="./images/2.png" crossorigin="anonymous" />
       </a-assets>
 
       <!-- 顯示內容 -->
