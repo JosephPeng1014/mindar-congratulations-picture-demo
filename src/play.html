@@ -5,6 +5,7 @@
     <style>
 			body { margin: 0; }
 			#scene {
+        /* 設定camera畫面的圖層在下方 */
 				width: 100vw;
 				height: 100vh;
 				display: block;
@@ -52,13 +53,14 @@
       <a-camera position="0 0 0" look-controls="enabled: false"> </a-camera>
     </a-scene>
 
-    <!-- Modal -->
+    <!-- 點擊後出現Modal -->
     <img 
 			id="menu_image"
 			class="inline-block ml-3 mt-3 h-10 w-10 rounded-full cursor-pointer"
 			src="./public/logo.png" 
 		/>
 
+    <!-- Modal -->
     <div id="modal" class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
 			<div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 			<div class="fixed inset-0 z-10 overflow-y-auto">
@@ -94,6 +96,7 @@
 		</div>
 
     <script>
+      // 設定modal是否顯示
       $('#modal').toggleClass('hidden')
       $("#menu_image").click(()=>{
         $('#modal').toggleClass('hidden')
@@ -104,6 +107,7 @@
         }
       })
 
+      // 從storage裡拿到各項參數，替換內容
       const getLogo = localStorage.getItem('logo');
       if(getLogo){
         $("#menu_image").attr("src", getLogo);

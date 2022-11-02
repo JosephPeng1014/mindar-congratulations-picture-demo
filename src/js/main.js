@@ -1,16 +1,17 @@
 
+// 用來fetch project資料
 const main = async()=>{
+  // 先清用local storage
   localStorage.clear();
 
+  //從url拿到token 
   const params = new Proxy(new URLSearchParams(window.location.search), {
     get: (searchParams, prop) => searchParams.get(prop),
   });
   const token = params.token;
 
-  console.log('token', token)
-
-
   if(token){
+    // togather 平台的api位置
     const url = `https://f553-2001-b011-7001-3890-a05d-4c01-6cd-7dc.jp.ngrok.io/api/qrcode/get?token=${token}`
     
     const result = await fetch(url,{
@@ -32,6 +33,8 @@ const main = async()=>{
       const compiledMarker = (project?.resources ||[]).find(doc=>doc.type === 'marker')
 
 
+      // 把資料存到localstorage
+
       if(logo&& logo.src){
         localStorage.setItem('logo', logo.src);
       }
@@ -40,7 +43,7 @@ const main = async()=>{
         localStorage.setItem('title', project.title);
         localStorage.setItem('body', project.body);
       }
-     
+
       if(media && media.src){
         localStorage.setItem('media',media?.src);
       }
@@ -53,6 +56,7 @@ const main = async()=>{
       return result
     })
     .then(()=>{
+      // 都完成後跳轉到ar頁面
       window.location.replace("/play.html")
     })
     .catch((error) => {
