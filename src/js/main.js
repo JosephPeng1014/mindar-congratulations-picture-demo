@@ -25,11 +25,22 @@ const main = async()=>{
 
       const qrcode = result?.qrcode
       const project = qrcode?.project
+      const logo =  result?.qrcode?.project?.logo
       const resources = (project?.resources ||[]).filter(doc=>doc.type === 'ar')
       const resource = resources[0] || {}
       const media = resource?.media
       const compiledMarker = (project?.resources ||[]).find(doc=>doc.type === 'marker')
 
+
+      if(logo&& logo.src){
+        localStorage.setItem('logo', logo.src);
+      }
+
+      if(project){
+        localStorage.setItem('title', project.title);
+        localStorage.setItem('body', project.body);
+      }
+     
       if(media && media.src){
         localStorage.setItem('media',media?.src);
       }
