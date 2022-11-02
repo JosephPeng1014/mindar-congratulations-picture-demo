@@ -1,0 +1,57 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./index.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.5/dist/mindar-image.prod.js"></script>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.5/dist/mindar-image-aframe.prod.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  
+  <body class="bg-blue-300">
+    <div
+      id="videoShow"
+      class="hidden absolute m-0  left-[50%] -translate-x-1/2 w-full"
+    >
+       <div id="video"> </div>
+    </div> 
+
+    <!-- 模型加載 -->
+    <a-scene
+      id="scene"
+      mindar-image="imageTargetSrc: targets.mind; maxTrack: 1; filterMinCF:0.0001; filterBeta: 0.001;uiScanning:no"
+      color-space="sRGB"
+      renderer="colorManagement: true, physicallyCorrectLights"
+      vr-mode-ui="enabled: false"
+      device-orientation-permission-ui="enabled: false"
+    >
+
+      <!-- 顯示圖片 -->
+      <a-assets>
+        <img id="img" src="./images/2.png" crossorigin="anonymous" />
+      </a-assets>
+
+      <!-- 顯示內容 -->
+      <a-entity mindar-image-target="targetIndex: 0">
+        <a-plane src="#img" position="0 0 0" height="1" width="1" rotation="0 0 0"></a-plane>
+      </a-entity>
+
+      <!-- 使用相機 -->
+      <a-camera position="0 0 0" look-controls="enabled: false"> </a-camera>
+    </a-scene>
+
+    <script>
+      const getMarker = localStorage.getItem('marker');
+      console.log('getMarker', getMarker)
+      if(getMarker){
+        $("#scene").attr("mindar-image", `imageTargetSrc: ${getMarker}; maxTrack: 1; filterMinCF:0.0001; filterBeta: 0.001;uiScanning:no`);
+      }
+
+      const getMedia = localStorage.getItem('media');
+      console.log('getMedia', getMedia)
+      if(getMedia){
+        $("#img").attr("src", getMedia);
+      }
+    </script>
+  </body>
+</html>

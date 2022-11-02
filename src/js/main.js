@@ -1,5 +1,7 @@
 
 const main = async()=>{
+  localStorage.clear();
+
   const params = new Proxy(new URLSearchParams(window.location.search), {
     get: (searchParams, prop) => searchParams.get(prop),
   });
@@ -9,7 +11,7 @@ const main = async()=>{
 
 
   if(token){
-    const url = `https://af1d-2001-b011-7001-3bf9-e1e3-900f-4b9d-b24f.jp.ngrok.io/api/qrcode/get?token=${token}`
+    const url = `https://f553-2001-b011-7001-3890-a05d-4c01-6cd-7dc.jp.ngrok.io/api/qrcode/get?token=${token}`
     
     const result = await fetch(url,{
       mode: 'cors',
@@ -18,35 +20,37 @@ const main = async()=>{
         'Access-Control-Allow-Origin':'*'
       }
     })
-    .then(response => {
-      return response.json()
+    .then(async response => {
+      const result = await response.json()
+
+      const qrcode = result?.qrcode
+      const project = qrcode?.project
+      const resources = (project?.resources ||[]).filter(doc=>doc.type === 'ar')
+      const resource = resources[0] || {}
+      const media = resource?.media
+      const compiledMarker = (project?.resources ||[]).find(doc=>doc.type === 'marker')
+
+      if(media && media.src){
+        localStorage.setItem('media',media?.src);
+      }
+
+      if(compiledMarker){
+        const marker = compiledMarker.compiledMarker
+        localStorage.setItem('marker', marker.src);
+      }
+
+      return result
+    })
+    .then(()=>{
+      window.location.replace("/play.html")
     })
     .catch((error) => {
       console.log('error',error)
     })
-
-    const qrcode = result?.qrcode
-    const project = qrcode?.project
-    const resources = (project?.resources ||[]).filter(doc=>doc.type === 'ar')
-    const resource = resources[0] || {}
-    const media = resource?.media
-    const compiledMarker = (project?.resources ||[]).find(doc=>doc.type === 'marker')
-
-
-    if(media && media.src){
-      $("#img").attr("src", media?.src);
-    }
-
-    if(compiledMarker){
-      const marker = compiledMarker.compiledMarker
-      console.log('marker',marker.src)
-
-      $("#scene").attr("mindar-image", `imageTargetSrc: https://mscguide.s3.ap-northeast-1.amazonaws.com/compiledMarker/999adc1441514d3fe40accd939c8ed50-Cyvymfw5.mind; maxTrack: 1; filterMinCF:0.0001; filterBeta: 0.001;uiScanning:no`);
-      const test = $("#scene").attr("mindar-image");
-      console.log('test', test)
-    }
-
   }
+
+
+
 }
 
 main()
