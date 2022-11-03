@@ -5,15 +5,28 @@
     <style>
 			body { margin: 0; }
 			#scene {
-        /* 設定camera畫面的圖層在下方 */
 				width: 100vw;
 				height: 100vh;
 				display: block;
 				position: fixed;
 				top: 0;
 				left: 0;
-				z-index: -10;
+				/* z-index: -10; */
 			}
+      .menu {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 10;
+        background: transparent;
+      }
+      .modal {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 20;
+        background: transparent;
+      }
 		</style>
     <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.5/dist/mindar-image.prod.js"></script>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
@@ -54,20 +67,26 @@
     </a-scene>
 
     <!-- 點擊後出現Modal -->
-    <img 
-			id="menu_image"
-			class="inline-block ml-3 mt-3 h-10 w-10 rounded-full cursor-pointer"
-			src="./public/logo.png" 
-		/>
+    <div id="menu" class="first_container">
+      <img 
+        id="menu_image"
+        class="inline-block ml-3 mt-3 h-10 w-10 rounded-full cursor-pointer"
+        src="./public/logo.png" 
+      />
+    </div>
 
     <!-- Modal -->
-    <div id="modal" class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div id="modal" class="relative z-20" aria-labelledby="modal-title" role="dialog" aria-modal="true">
 			<div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
-			<div class="fixed inset-0 z-10 overflow-y-auto">
+			<div class="fixed inset-0 z-20 overflow-y-auto">
 				<div id="modal-bg" class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
 					<div class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6 w-full">
 						<div>
 							<div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full">
+								<!-- Heroicon name: outline/check -->
+								<!-- <svg class="h-6 w-6 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+									<path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+								</svg> -->
 								<img 
 									id="modal_logo"
 									class="inline-block h-14 w-14 rounded-full"
@@ -83,6 +102,9 @@
 								</div>
 							</div>
 						</div>
+						<!-- <div class="mt-5 sm:mt-6">
+							<button type="button" class="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-sm">Go back to dashboard</button>
+						</div> -->
 					</div>
 				</div>
 			</div>
@@ -121,7 +143,7 @@
       if(getMarker){
         $("#scene").attr("mindar-image", `imageTargetSrc: ${getMarker}; maxTrack: 1; filterMinCF:0.0001; filterBeta: 0.001;uiScanning:no`);
       }
-
+      
       const getMedia = localStorage.getItem('media');
       if(getMedia){
         $("#img").attr("src", getMedia);
