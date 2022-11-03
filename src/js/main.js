@@ -12,7 +12,7 @@ const main = async()=>{
 
   if(token){
     // togather 平台的api位置
-    const url = `https://edc8-2001-b011-7001-3af3-51a1-b798-621b-624a.jp.ngrok.io/api/qrcode/get?token=${token}`
+    const url = `https://826c-2001-b011-7001-3af3-7cfc-2486-8c5c-e56f.jp.ngrok.io/api/qrcode/get?token=${token}`
     
     const result = await fetch(url,{
       mode: 'cors',
