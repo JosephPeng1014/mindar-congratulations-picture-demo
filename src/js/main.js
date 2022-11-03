@@ -32,7 +32,6 @@ const main = async()=>{
       const media = resource?.media
       const compiledMarker = (project?.resources ||[]).find(doc=>doc.type === 'marker')
 
-
       // 把資料存到localstorage
 
       if(logo&& logo.src){
